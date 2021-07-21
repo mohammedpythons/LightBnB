@@ -24,3 +24,4 @@ VALUES (1, 2, 3, 10, 'message'),
 VALUES (2, 1, 2, 9, 'message'),
 VALUES (3, 3, 1, 5, 'message'),
 VALUES (4, 2, 4, 7, 'message');
+
