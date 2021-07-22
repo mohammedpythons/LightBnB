@@ -41,10 +41,10 @@ exports.getUserWithId = getUserWithId;
  * @return {Promise<{}>} A promise to the user.
  */
 
-  const addUser =  function(user) {   return client.query(`INSERT INTO users (name, password, email)     VALUES ($1, $2, $3)     RETURNING *;
-   `, [user.name, user.password, user.email])
-   .then(res => res.rows[0]); }
-
+  const addUser =  function(user) {
+    return pool.query(`INSERT INTO users (name, password, email) VALUES($1, $2, $3) RETURNING *;`, [user.name, user.email, user.password])
+    .then(res => res.rows[0])
+  }
 exports.addUser = addUser;
 
 /// Reservations
@@ -55,7 +55,9 @@ exports.addUser = addUser;
  * @return {Promise<[{}]>} A promise to the reservations.
  */
 const getAllReservations = function(guest_id, limit = 10) {
-  return getAllProperties(null, 2);
+  return pool.query(`SELECT * FROM reservations WHERE guest_id = $1 LIMIT $2`, [`%${guest_id}%` ,limit])
+  .then(res => res.rows[0])
+  .catch(er => {console.log(er.message)})
 }
 exports.getAllReservations = getAllReservations;
 
